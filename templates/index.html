@@ -5,12 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO!</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: cadetblue;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 1rem;
+            font: bold;
+        }
+
+        button {
+            background-color: aquamarine;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        input {
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
-    <nav></nav>
+    <nav>
+        <button>Ingresar</button>
+        <button>Editar</button>
+        <button>Eliminar</button>
+    </nav>
 
-    <main></main>
+    <main>
+        <form action="/task" method="post">
+            <label>Nombre:</label>
+            <input type="text" name="" id="" required>
+
+            <label>Email:</label>
+            <input type="email" name="" id="" readonly>
+
+            <label>Fecha:</label>
+            <input type="date" name="" id="" readonly>
+
+            <input type="submit" value="Ingresar">
+        </form>
+    </main>
 </body>
 
 </html>
