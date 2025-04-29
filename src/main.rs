@@ -2,7 +2,6 @@ use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use serde::Deserialize;
 use std::{collections::VecDeque, fs, sync::Mutex};
 
-//
 #[derive(Deserialize)]
 struct Task {
     name: String,
