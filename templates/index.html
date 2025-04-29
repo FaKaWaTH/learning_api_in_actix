@@ -47,6 +47,17 @@
         input {
             margin-bottom: 0.5rem;
         }
+
+        table {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        td,
+        tr {
+            padding: 5px;
+        }
     </style>
 </head>
 
@@ -68,9 +79,25 @@
             <label>Fecha:</label>
             <input type="date" name="date" id="date" required>
 
+            <label>Descripción:</label>
+            <textarea name="description" id="description" required></textarea>
+
             <input type="submit" value="Ingresar">
         </form>
     </main>
+
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Nombre</td>
+            <td>Email</td>
+            <td>Fecha</td>
+            <td>Descripción</td>
+        </tr>
+        <!-- use it to add Task from rust-->
+        {{TASK_TABLE}}
+    </table>
+
 </body>
 
 </html>
