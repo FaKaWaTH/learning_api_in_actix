@@ -34,7 +34,6 @@
             padding: 0.5rem 1rem;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         form {
@@ -49,14 +48,17 @@
         }
 
         table {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 2rem auto;
+            max-width: 800px;
         }
 
         td,
-        tr {
+        th {
             padding: 5px;
+            border: 1px solid #fff;
+            text-align: left;
         }
     </style>
 </head>
@@ -69,7 +71,7 @@
     </nav>
 
     <main>
-        <form action="/tasks" method="post">
+        <form id="task-form">
             <label>Nombre:</label>
             <input type="text" name="name" id="name" required>
 
@@ -86,17 +88,69 @@
         </form>
     </main>
 
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Nombre</td>
-            <td>Email</td>
-            <td>Fecha</td>
-            <td>Descripción</td>
-        </tr>
-        <!-- use it to add Task from rust-->
-        {{TASK_TABLE}}
+    <table id="task-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
     </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("task-form").addEventListener("submit", createTask);
+
+            fetchTasks();
+        });
+
+        async function fetchTasks() {
+            const response = await fetch("/api/tasks");
+            const tasks = await response.json();
+            const tableBody = document.querySelector("#task-table tbody");
+
+            tableBody.innerHTML = "";
+
+            tasks.forEach(task => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${task.id}</td>
+                    <td>${task.name}</td>
+                    <td>${task.email}</td>
+                    <td>${task.date}</td>
+                    <td>${task.description}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function createTask(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById("task-form"));
+            const data = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                date: formData.get("date"),
+                description: formData.get("description")
+            };
+
+            const response = await fetch("/api/tasks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                fetchTasks();
+            }
+        }
+    </script>
 
 </body>
 
