@@ -48,10 +48,13 @@
         }
 
         table {
-            border-collapse: collapse;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
             width: 100%;
-            margin-top: 2rem auto;
             max-width: 800px;
+            border-collapse: collapse;
+            margin: 2rem auto;
         }
 
         td,
@@ -102,54 +105,6 @@
     </table>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("task-form").addEventListener("submit", createTask);
-
-            fetchTasks();
-        });
-
-        async function fetchTasks() {
-            const response = await fetch("/api/tasks");
-            const tasks = await response.json();
-            const tableBody = document.querySelector("#task-table tbody");
-
-            tableBody.innerHTML = "";
-
-            tasks.forEach(task => {
-                const row = document.createElement("tr");
-
-                row.innerHTML = `
-                    <td>${task.id}</td>
-                    <td>${task.name}</td>
-                    <td>${task.email}</td>
-                    <td>${task.date}</td>
-                    <td>${task.description}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        async function createTask(event) {
-            event.preventDefault();
-
-            const formData = new FormData(document.getElementById("task-form"));
-            const data = {
-                name: formData.get("name"),
-                email: formData.get("email"),
-                date: formData.get("date"),
-                description: formData.get("description")
-            };
-
-            const response = await fetch("/api/tasks", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                fetchTasks();
-            }
-        }
     </script>
 
 </body>
