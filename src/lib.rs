@@ -1,4 +1,8 @@
+mod error;
 mod routes;
+mod web;
+
+use self::error::{Error, Result};
 
 //  startup the server
 pub async fn run() {
