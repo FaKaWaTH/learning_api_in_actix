@@ -6,6 +6,7 @@ use axum::{
     routing::{get, Router},
 };
 use index::index;
+use tower_cookies::CookieManagerLayer;
 
 use crate::web;
 
@@ -15,6 +16,7 @@ pub fn create_route() -> Router {
         .merge(route_static())
         .merge(web::routes_login::route_api_login())
         .layer(middleware::map_response(response_mapper))
+        .layer(CookieManagerLayer::new())
 }
 
 //  stack static files in one fn

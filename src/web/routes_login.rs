@@ -1,21 +1,29 @@
-use axum::{routing::post, Json, Router};
+use axum::{routing::post, Extension, Json, Router};
 use serde::Deserialize;
 use serde_json::{json, Value};
+use tower_cookies::{Cookie, Cookies};
 
-use crate::{Error, Result};
+use crate::{web, Error, Result};
 
 pub fn route_api_login() -> Router {
     Router::new().route("/api/login", post(api_login))
 }
 
 //  check post data to login
-async fn api_login(payload: Json<LoginPayload>) -> Result<Json<Value>> {
+
+#[axum::debug_handler]
+async fn api_login(
+    Extension(cookies): Extension<Cookies>,
+    Json(payload): Json<LoginPayload>,
+) -> Result<Json<Value>> {
     println!("->> {:<8} - api_login", "HANDLER");
 
     //  TODO!(implement db login)
     if payload.user != "demo" || payload.pass != "run" {
         return Err(Error::LoginFail);
     }
+
+    cookies.add(Cookie::new(web::AUTH_TOKE, "user-1.exp.sing"));
 
     let body = Json(json!({
         "result": {
