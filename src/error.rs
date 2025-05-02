@@ -7,6 +7,7 @@ pub enum Error {
     LoginFail,
 }
 
+//  return 500 code
 impl IntoResponse for Error {
     fn into_response(self) -> axum::response::Response {
         println!("->> {:<8} - {self:?}", "INTO RES");
