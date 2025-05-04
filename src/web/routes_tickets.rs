@@ -2,10 +2,8 @@ use crate::routes::model::{ModelController, Ticket, TicketForCreate};
 use crate::Result;
 
 use axum::extract::{FromRef, Path, State};
-use axum::routing::{delete, get, post};
+use axum::routing::{delete, post};
 use axum::{Json, Router};
-
-//  REST
 
 #[derive(Clone, FromRef)]
 struct AppState {
@@ -32,10 +30,7 @@ async fn create_ticket(
     Ok(Json(ticket))
 }
 
-async fn list_tickets(
-    State(mc): State<ModelController>,
-    Json(ticket_fc): Json<TicketForCreate>,
-) -> Result<Json<Vec<Ticket>>> {
+async fn list_tickets(State(mc): State<ModelController>) -> Result<Json<Vec<Ticket>>> {
     println!("->> {:<8} - list_ticket", "HANDLER");
 
     let tickets = mc.list_tickets().await?;

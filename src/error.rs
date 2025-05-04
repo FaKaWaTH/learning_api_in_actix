@@ -27,7 +27,7 @@ impl IntoResponse for Error {
 
         let status = match self {
             Error::LoginFail => StatusCode::UNAUTHORIZED,
-            Error::TicketDeleteFailNotFound { id } => StatusCode::NOT_FOUND,
+            Error::TicketDeleteFailNotFound { id } => StatusCode::BAD_REQUEST,
         };
 
         (status, format!("Error: {self}")).into_response()
