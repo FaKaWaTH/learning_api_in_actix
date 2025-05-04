@@ -10,6 +10,7 @@ pub type Result<T> = axum::response::Result<T, Error>;
 #[derive(Debug)]
 pub enum Error {
     LoginFail,
+    TicketDeleteFailNotFound { id: u64 },
 }
 
 impl fmt::Display for Error {
@@ -26,6 +27,7 @@ impl IntoResponse for Error {
 
         let status = match self {
             Error::LoginFail => StatusCode::UNAUTHORIZED,
+            Error::TicketDeleteFailNotFound { id } => StatusCode::NOT_FOUND,
         };
 
         (status, format!("Error: {self}")).into_response()
